@@ -7,7 +7,9 @@
 //============================================================================
 
 #include <iostream>
+#include <chrono>
 using namespace std;
+
 
 void printArray(int *ArrayPtr, int ArraySize){
     cout << "[ ";
@@ -84,8 +86,28 @@ void MergeSortArray(int * unsrtedArray,int size){
 }
 
 int main() {
-	int unsrtedArray[10] = {245,4323,64,80,1000,1,356,523,75,977};
-	MergeSortArray(unsrtedArray,(sizeof(unsrtedArray)/sizeof(int)));
-	printArray(unsrtedArray, (sizeof(unsrtedArray)/sizeof(int)));
+	int unsrtedArray1[1000], unsrtedArray2[1000];
+	chrono::steady_clock sc;
+
+	for (int i = 0; i<1000 ;i++){
+		unsrtedArray1[i] = rand();
+		unsrtedArray2[i] = unsrtedArray1[i];
+	}
+
+	auto start = sc.now();
+	MergeSortArray(unsrtedArray1,(sizeof(unsrtedArray1)/sizeof(int)));
+	//bubbleSort(unsrtedArray, (sizeof(unsrtedArray)/sizeof(int)));
+	auto end = sc.now();
+	auto time_span = static_cast<chrono::duration<double>>(end - start);
+	cout<<"MergeSortArray Operation took: "<<time_span.count()<<" seconds !!!" << endl;
+	printArray(unsrtedArray1, (sizeof(unsrtedArray1)/sizeof(int)));
+
+	start = sc.now();
+	//MergeSortArray(unsrtedArray2,(sizeof(unsrtedArray2)/sizeof(int)));
+	bubbleSort(unsrtedArray2, (sizeof(unsrtedArray2)/sizeof(int)));
+	end = sc.now();
+	time_span = static_cast<chrono::duration<double>>(end - start);
+	cout<<"bubbleSort Operation took: "<<time_span.count()<<" seconds !!!" << endl;
+	printArray(unsrtedArray2, (sizeof(unsrtedArray2)/sizeof(int)));
 	return 0;
 }
